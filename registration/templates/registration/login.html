@@ -1,0 +1,17 @@
+{% extends 'registration/base.html' %}
+
+{% block contents %}
+    <br>
+<div>
+
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" class="btn-success btn-sm" value="로그인">
+    <input type="reset" value="reset">
+</form>
+
+</div>
+
+{% endblock %}

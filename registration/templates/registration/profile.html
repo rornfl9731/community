@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block contents %}
+<style>
+    .search {
+  margin: 3em 0 1em 0;
+  position: relative; }
+  .search-icon {
+    position: absolute;
+    top: 0.8em;
+    left: 1em;
+    font-size: 20px;
+    color: #C6C6C6; }
+  .search-input {
+    width: 100%;
+    padding: 0.5em 0.8em;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    padding-left: 2.2em;
+    color: #1067BF;
+    font-size: 1.5em;
+    font-weight: 300; }
+
+</style>
+<div class="row mt-5">
+    <div class="col-12">
+    <p>내가 쓴 글</p>
+
+        <table class="table table-hover">
+            <thead class="text-dark">
+
+            <tr style="font-size: 12px">
+                <th>번호</th>
+                <th>제목</th>
+                <th style="">아이디</th>
+                <th>일시</th>
+                <th>조회</th>
+            </tr>
+            </thead>
+
+
+
+
+
+            <tbody class="text-dark">
+            {% for board in myboards %}
+            {% now "m-d" as todays_date %}
+
+
+
+            <tr style="font-size: 12px">
+                <td>{{ board.id }}</td>
+                <td><a style="color:#000;" href="{% url 'detail' pk=board.id %}"> {{ board.title }} </a></td>
+                <!--<td>{{ board.writer }}</td>-->
+                <td>{{ board.writer }}</td>
+                {% if todays_date == board.registered_dttm|date:'m-d' %}
+
+                <td>{{ board.registered_dttm|date:'H:m' }}</td>
+                {% else %}
+                <td>{{ board.registered_dttm|date:'m.d' }}</td>
+                {% endif %}
+
+                <td>10</td>
+
+
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col-12">
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    {% if myboards.has_previous %}
+                    <a class="page-link" href="?p={{ myboards.previous_page_number}}">이전으로</a>
+                    {% else %}
+                    <a class="page-link disabled" href="#" disabled="">이전으로</a>
+                    {% endif %}
+                </li>
+                <li class="page-item active">
+                    <a class="page-link" href="#">{{ myboards.number }}/{{myboards.paginator.num_pages}}</a>
+                </li>
+                <li class="page-item">
+                    {% if myboards.has_next %}
+                    <a class="page-link" href="?p={{ myboards.next_page_number }}">다음으로</a>
+                    {% else %}
+                    <a class="page-link disabled" href="#" >다음으로</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+    <div class="row mt-5">
+    <div class="col-12">
+    <p>내가 쓴 댓글</p>
+
+        <table class="table table-hover">
+            <thead class="text-dark">
+
+            <tr style="font-size: 12px">
+{#                <th>번호</th>#}
+                <th>댓글</th>
+{#                <th style="">아이디</th>#}
+                <th>일시</th>
+{#                <th>조회</th>#}
+            </tr>
+            </thead>
+
+
+
+
+
+            <tbody class="text-dark">
+            {% for comment in mycomments %}
+            {% now "m-d" as todays_date %}
+
+
+
+            <tr style="font-size: 12px">
+{#                <td>{{ comment.id }}</td>#}
+                <td><a style="color:#000;" href="{% url 'detail' pk=comment.board.id %}"> {{ comment.text }} </a></td>
+                <!--<td>{{ comment.board.writer }}</td>-->
+{#                <td>{{ comment.board.writer }}</td>#}
+                {% if todays_date == comment.board.registered_dttm|date:'m-d' %}
+
+                <td>{{ comment.created}}</td>
+                {% else %}
+                <td>{{ comment.created}}</td>
+                {% endif %}
+
+{#                <td>10</td>#}
+
+
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col-12">
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    {% if mycomments.has_previous %}
+                    <a class="page-link" href="?p={{ mycomments.previous_page_number}}">이전으로</a>
+                    {% else %}
+                    <a class="page-link disabled" href="#" disabled="">이전으로</a>
+                    {% endif %}
+                </li>
+                <li class="page-item active">
+                    <a class="page-link" href="#">{{ mycomments.number }}/{{mycomments.paginator.num_pages}}</a>
+                </li>
+                <li class="page-item">
+                    {% if mycomments.has_next %}
+                    <a class="page-link" href="?p={{ mycomments.next_page_number }}">다음으로</a>
+                    {% else %}
+                    <a class="page-link disabled" href="#" >다음으로</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+{% endblock %}

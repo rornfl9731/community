@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block contents %}
+<style>
+    .search {
+  margin: 3em 0 1em 0;
+  position: relative; }
+  .search-icon {
+    position: absolute;
+    top: 0.8em;
+    left: 1em;
+    font-size: 20px;
+    color: #C6C6C6; }
+  .search-input {
+    width: 100%;
+    padding: 0.5em 0.8em;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    padding-left: 2.2em;
+    color: #1067BF;
+    font-size: 1.5em;
+    font-weight: 300; }
+
+</style>
+<div class="row mt-5">
+    <div class="col-12">
+        <form class="search" method="get" action="#">
+
+  <i class="fa fa-search search-icon"></i>
+{#  <input class="search-input" id="q" {% if request.GET.q %}value="{{ request.GET.q }}"{% endif %} name="q" type="text" placeholder="your search...">#}
+  <input class="search-input" id="q"name="q" type="text" placeholder="your search...">
+
+        </form>
+        <table class="table table-hover">
+            <thead class="text-dark">
+
+            <tr style="font-size: 12px">
+                <th>번호</th>
+                <th>제목</th>
+                <th style="">아이디</th>
+                <th>일시</th>
+                <th>조회</th>
+            </tr>
+            </thead>
+
+
+             <tr style="font-size: 12px">
+                <td><strong>공지</strong></td>
+                 <td style="color: red;"><strong>[성별관련 언급 공지 제발 좀! 확인]</strong></td>
+                <th style="">아이디</th>
+                <td>05.13</td>
+                <td>12030</td>
+            </tr>
+
+
+            <tbody class="text-dark">
+            {% for board in boards %}
+            {% now "m-d" as todays_date %}
+
+
+
+            <tr style="font-size: 12px">
+                <td>{{ board.id }}</td>
+                <td><a style="color:#000;" href="{% url 'detail' pk=board.id %}"> {{ board.title }} </a><strong style="color: #005c7a;font-size: smaller"> {{board.comment.count }}</strong></td>
+                <!--<td>{{ board.writer }}</td>-->
+                <td>{{ board.writer }}</td>
+                {% if todays_date == board.registered_dttm|date:'m-d' %}
+
+                <td>{{ board.registered_dttm|date:'H:m' }}</td>
+                {% else %}
+                <td>{{ board.registered_dttm|date:'m.d' }}</td>
+                {% endif %}
+
+                <td>10</td>
+
+
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col-12">
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    {% if boards.has_previous %}
+                    <a class="page-link" href="?p={{ boards.previous_page_number}}">이전으로</a>
+                    {% else %}
+                    <a class="page-link disabled" href="#" disabled="">이전으로</a>
+                    {% endif %}
+                </li>
+                <li class="page-item active">
+                    <a class="page-link" href="#">{{ boards.number }}/{{boards.paginator.num_pages}}</a>
+                </li>
+                <li class="page-item">
+                    {% if boards.has_next %}
+                    <a class="page-link" href="?p={{ boards.next_page_number }}">다음으로</a>
+                    {% else %}
+                    <a class="page-link disabled" href="#" >다음으로</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12" style="text-align: right" >
+        <a href="{% url 'write' %}"><button class="btn btn-primary">글쓰기 </button></a>
+    </div>
+</div>
+{% endblock %}
