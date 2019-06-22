@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 
 class Board(models.Model):
     title = models.CharField(max_length=64,verbose_name='title',default='')
-    #contents = models.TextField(max_length=128,verbose_name='content',default='')
-    contents = RichTextField(max_length=128, verbose_name='content', default='')
+    contents = models.TextField(verbose_name='content',default='')
+    # contents = RichTextField(max_length=128, verbose_name='content', default='')
     writer = models.ForeignKey(User,on_delete=models.CASCADE,verbose_name="user",default='')
     registered_dttm = models.DateTimeField(auto_now_add=True,verbose_name='시간')
 

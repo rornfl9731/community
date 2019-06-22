@@ -28,7 +28,7 @@
 
   <i class="fa fa-search search-icon"></i>
 {#  <input class="search-input" id="q" {% if request.GET.q %}value="{{ request.GET.q }}"{% endif %} name="q" type="text" placeholder="your search...">#}
-  <input class="search-input" id="q"name="q" type="text" placeholder="your search...">
+  <input class="search-input" id="q"name="q" type="text" value="{{ q }}" placeholder="검색">
 
         </form>
         <table class="table table-hover">

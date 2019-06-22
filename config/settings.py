@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'board',
     'ckeditor',
     'hitcount',
+    'django_summernote'
 
 ]
 
@@ -132,3 +133,24 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static')
 ]
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+SUMMERNOTE_THEME = 'bs4'
+
+SUMMERNOTE_CONFIG = {
+    'summernote': {
+
+        'width': '100%',
+        'height': '480',
+        'tabsize':'2',
+
+
+
+        # Or, set editor language/locale forcely
+        'lang': 'ko-KR',
+
+
+        # You can also add custom settings for external plugins
+
+}}

@@ -1,5 +1,21 @@
 {% extends "base.html" %}
 
+{% block header %}
+{#    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">#}
+{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>#}
+    <script src="lang/summernote-ko-KR.js"></script>
+{#    <script>#}
+{#    $(document).ready(function () {#}
+{#        $('#id_contents').summernote({#}
+{#        tabsize: 2,#}
+{#        height: 400,#}
+{#            lang: 'ko-KR'#}
+{#      });#}
+{##}
+{#    })#}
+{##}
+{#    </script>#}
+{% endblock %}
 {% block contents %}
 
 {#<div class="row mt-5">#}
@@ -12,9 +28,9 @@
 {#            <label for="{{ field.id_for_label }}">{{field.label}}</label>#}
 {#            {{ field.field.widget.name }}#}
 {#            {% ifequal field.name 'contents' %}#}
-{#            <textarea  style="height:300px" class="form-control" name="{{ field.name }}" placeholder="{{ field.label }}"></textarea>#}
+{#            <textarea  style="height:300px" class="form-control" name="{{ field.name }}" id="{{ field.id_for_label }}" placeholder="{{ field.label }}" >{{ field.value }}</textarea>#}
 {#            {% else %}#}
-{#            <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}" placeholder="{{ field.label }}" name="{{ field.name }}"/>#}
+{#            <input type="{{ field.field.widget.input_type }}" value="{{ field.value }}" class="form-control" id="{{ field.id_for_label }}" placeholder="{{ field.label }}" name="{{ field.name }}"/>#}
 {#            {% endifequal %}#}
 {#        </div>#}
 {#        {% if field.errors %}#}
@@ -22,15 +38,25 @@
 {#        {% endif %}#}
 {#        {% endfor %}#}
 {##}
-{#        <button type="submit" class="btn btn-primary">글쓰기</button>#}
+{#        <button type="submit" class="btn btn-primary">수정</button>#}
 {#    </form>#}
 {#    </div>#}
 {#</div>#}
-
+<div class="row mt-5">
+    <div class="col-12">
     <form action="." method="post">
+        <div class="form-group">
     {% csrf_token %}
-        {{ form.as_p }}
+
+       제목<br><p style="">{{ form.title }}</p>
+
+
+            내용 <br>
+            {{ form.contents }}
+            </div>
         <input type="submit" value="수정" class="btn btn-info btn-sm">
     </form>
+    </div>
+</div>
 
 {% endblock %}

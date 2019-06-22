@@ -4,6 +4,7 @@ from django.views import View
 from django.shortcuts import render
 from board.models import Board,Comment
 from django.core.paginator import Paginator
+from .forms import RegisterForm
 
 
 # Create your views here.
@@ -30,3 +31,18 @@ def profile(request):
     comments = paginators.get_page(pages)
 
     return render(request, 'registration/profile.html',{'myboards':boards,'mycomments':comments})
+
+
+def register(request):
+
+    if request.method == 'POST':
+        user_form = RegisterForm(request.POST)
+        if user_form.is_valid():
+            new_user = user_form.save(commit=False)
+            new_user.set_password(user_form.cleaned_data['password'])
+            new_user.save()
+            return render(request, 'registration/register_done.html', {'new_user':new_user})
+    else:
+        user_form = RegisterForm()
+
+    return render(request, 'registration/register.html',{'form':user_form})

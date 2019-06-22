@@ -4,7 +4,7 @@ from django.http import Http404,HttpResponse
 from django.core.paginator import Paginator
 from django.views.generic.edit import UpdateView
 from django.contrib.auth.models import User
-from .forms import BoardForm,WriteForm
+from .forms import BoardForm,WriteForm,FormFromSomeModel
 from django.urls import reverse_lazy,reverse
 from django.contrib.auth.decorators import login_required
 
@@ -61,7 +61,7 @@ def board_write(request):
 
             return redirect('/list')
     else:
-        form = BoardForm()
+        form = WriteForm()
     return render(request,'board_write.html',{'form':form})
 
 def board_list(request):
@@ -76,18 +76,26 @@ def board_list(request):
 
     boards = paginator.get_page(page)
 
-    return render(request,'board_list.html',{'boards':boards})
+    q = request.GET.get('q', '')  # GET request의 인자중에 q 값이 있으면 가져오고, 없으면 빈 문자열 넣기
+    if q:  # q가 있으면
+        boards = all_board.filter(title__icontains=q)
+
+
+
+    return render(request,'board_list.html',{'boards':boards,'q':q})
 
 
 class boardUpdateView(UpdateView):
     model = Board
-    form_class = BoardForm
+    form_class = FormFromSomeModel
     template_name = "board_update.html"
     success_url = reverse_lazy('list')
 
     def get_queryset(self):
         base_qs = super(boardUpdateView, self).get_queryset()
         return base_qs.filter(writer=self.request.user)
+
+
 
 
 def board_delete(request,pk):

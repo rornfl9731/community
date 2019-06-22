@@ -12,10 +12,13 @@
 
     .comment {
         background-color: #fff;
-        border-radius: 30px;
-        margin: 15px;
-        padding: 15px;
-        margin-bottom: 0;
+        {#border-radius: 30px;#}
+
+        padding: 10px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        margin-right: 20px;
+        margin-left: 20px;
     }
 
     .comment__date {
@@ -31,14 +34,14 @@
     }
 
     .form-wrapper {
-        padding: 15px;
+
     }
 
     /* 똑같은 스타일을 적용하고 싶으면 ,를 입력해주면 됩니다. */
     .form-wrapper input,
     .form-wrapper textarea {
         border: 1px solid #ddd;
-        width: 100%;
+        width: 95%;
         padding: 5px;
         font-size: 14px;
         box-sizing: border-box;
@@ -104,15 +107,20 @@
 
     </div>
 
-<div class="form-wrapper">
-    <span>Comments</span>
+
+</div>
+<br>
+    <div class="form-wrapper">
+
     <form action="" method="POST">
         {% csrf_token %}
-        <textarea class="comment__date" name="text"  placeholder="코멘트 내용"></textarea>
+        <div style="">
+        <textarea class="comment__date" name="text"  placeholder="댓글"></textarea>
         <button type="submit">등록</button>
+            </div>
     </form>
 </div>
-</div>
+
     <div class="comment_list">
     {% for commen in board.comment.all %}
         {% if commen.author == user %}
